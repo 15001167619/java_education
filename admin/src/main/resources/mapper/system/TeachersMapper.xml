@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etycx.system.mapper.TeachersMapper">
+    
+    <resultMap type="Teachers" id="TeachersResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="briefIntroduction"    column="brief_introduction"    />
+        <result property="picPath"    column="pic_path"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectTeachersVo">
+        select id, name, brief_introduction, pic_path, sort, status, create_time from teachers
+    </sql>
+	
+    <select id="selectTeachersList" parameterType="Teachers" resultMap="TeachersResult">
+        <include refid="selectTeachersVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="briefIntroduction != null  and briefIntroduction != '' "> and brief_introduction = #{briefIntroduction}</if>
+             <if test="picPath != null  and picPath != '' "> and pic_path = #{picPath}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectTeachersById" parameterType="Integer" resultMap="TeachersResult">
+        <include refid="selectTeachersVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTeachers" parameterType="Teachers" useGeneratedKeys="true" keyProperty="id">
+        insert into teachers
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="briefIntroduction != null  and briefIntroduction != ''  ">brief_introduction,</if>
+			<if test="picPath != null  and picPath != ''  ">pic_path,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  ">status,</if>
+			<if test="createTime != null  ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="briefIntroduction != null  and briefIntroduction != ''  ">#{briefIntroduction},</if>
+			<if test="picPath != null  and picPath != ''  ">#{picPath},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTeachers" parameterType="Teachers">
+        update teachers
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="briefIntroduction != null  and briefIntroduction != ''  ">brief_introduction = #{briefIntroduction},</if>
+            <if test="picPath != null  and picPath != ''  ">pic_path = #{picPath},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteTeachersById" parameterType="Integer">
+        delete from teachers where id = #{id}
+    </delete>
+	
+    <delete id="deleteTeachersByIds" parameterType="String">
+        delete from teachers where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

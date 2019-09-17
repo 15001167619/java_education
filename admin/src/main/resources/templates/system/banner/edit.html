@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+<style>
+	.primary_upload_info_btn ,.list_upload_info_btn {
+		background-size: 100% 100%;
+		background-image: url("/img/upload1.png");
+		width: 100px;
+		height: 100px;
+		float: left;
+	}
+	.por{
+		position:relative;
+	}
+	.info_list {
+		float: left;
+	}
+	.url{
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+	.hh_close{
+		position: absolute;
+		right: -12px;
+		top: -9px;
+		font-size: 18px!important;
+		cursor: pointer;
+	}
+	.hh_span{
+		display: inline-block;
+		margin-right: 10px;
+		line-height: 16px;
+	}
+	.urlName{
+		text-align: right;
+	}
+	.f_info input.f_file{position:absolute; left:50%; top:50px; width:740px; height:390px; margin-left:-370px; opacity:0; z-index:500; cursor:pointer; transition:all ease-in .5s;}
+	.f_info input.f_file:hover{ transition:.5s;}
+</style>
+<body class="white-bg">
+
+<div class="row url">
+	<label class="col-sm-3 control-label urlName">图片</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<form id="primaryPicForm" class="form-horizontal">
+				<div class="info_list">
+						<span class="hh_span por tc">
+							<img  class="media" width="100px" height="100px" th:src="'/upload/'+${banner.picPath}"/>
+							<i class="fa fa-times-circle-o hh_close"></i>
+						</span>
+				</div>
+				<div class="primary_upload_info_btn"></div>
+				<input type="file" class="primary_updateListFile" style="display: none" name="file" onchange="uploadPic('primaryPicForm')"/>
+			</form>
+		</div>
+	</div>
+</div>
+<form class="form-horizontal m" id="form-banner-edit" th:object="${banner}">
+	<input id="id" name="id" th:field="*{id}"  type="hidden">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">名称：</label>
+		<div class="col-sm-8">
+			<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">排序：</label>
+		<div class="col-sm-8">
+			<input id="sort" name="sort" th:field="*{sort}" class="form-control" type="text">
+		</div>
+	</div>
+	<input type="hidden" id="primaryPicUrl" th:field="*{picPath}" name="picPath">
+</form>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+<script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+<script th:src="@{/js/jquery.form.js}"></script>
+<script type="text/javascript">
+	var prefix = ctx + "system/banner";
+	$(function () {
+		initDelBtn();
+	})
+	$(".primary_upload_info_btn").click(function () {
+		$(".primary_updateListFile").click();
+	});
+	$(".list_upload_info_btn").click(function () {
+		$(".list_updateListFile").click();
+	});
+	$("#form-gqtBanner-edit").validate({
+		rules:{
+			xxxx:{
+				required:true,
+			},
+		},
+		focusCleanup: true
+	});
+
+	function submitHandler() {
+		if ($.validate.form()) {
+			$.operate.save(prefix + "/edit", $('#form-banner-edit').serialize());
+		}
+	}
+
+	function uploadPic(form) {
+		$('input.f_file').hover(
+				function() {
+					$(this).next().find('img.halrea').removeClass('shay')
+							.addClass('disn');
+					$(this).next().find('img.f_coimg').removeClass('disn')
+							.addClass('shay');
+				},
+				function() {
+					$(this).next().find('img.halrea').removeClass('disn')
+							.addClass('shay');
+					$(this).next().find('img.f_coimg').removeClass('shay')
+							.addClass('disn');
+				});
+		var formObj = $("#"+form);
+		if("primaryPicForm"==form){
+			var primary=$('.primary_updateListFile').val();
+			if(primary==null||primary==undefined||primary==""){
+				return;
+			}
+		}else if("listPicForm"==form) {
+			var list=$('.list_updateListFile').val();
+			if(list==null||list==undefined||list==""){
+				return;
+			}
+		}
+		//异步表单提交 先提交图片
+		formObj.ajaxSubmit({
+			type : "POST",
+			url : "/common/upload",
+			dataType : "text",
+			async : false,
+			data : {
+				fileType : "imge"
+			},
+			success : function(data) {
+				if("primaryPicForm"==form){
+					updateImage(formObj,data);
+				}
+			}
+		});
+	}
+
+	//更新图片
+	var updateImage=function(elem,data){
+		data =$.parseJSON(data);
+		var node = [];
+		node.push('<span class="hh_span por tc">');
+		node.push('<img  class="media" width="100px" height="100px" src="/upload/'+data.fileName+'"/>');
+		node.push('<i class="fa fa-times-circle-o hh_close"></i>');
+		node.push('</span>');
+		$(elem).find('.info_list').empty();
+		$(elem).find('.info_list').eq(0).append(node.join(''));
+		$("#primaryPicUrl").val(data.fileName);
+		console.log("primaryPicUrl:"+$("#primaryPicUrl").val());
+		initDelBtn();
+	};
+
+
+	//追加图片
+	var appendImage=function(elem,data){
+		data =$.parseJSON(data);
+		var node = [];
+		node.push('<span class="hh_span por tc">');
+		node.push('<img  class="media" width="100px" height="100px" src="/upload/'+data.fileName+'"/>');
+		node.push('<i class="fa fa-times-circle-o hh_close"></i>');
+		node.push('</span>');
+		$(elem).find('.info_list').eq(0).append(node.join(''));
+		if ($("#listPicUrl").val() != "") {
+			$("#listPicUrl").val($("#listPicUrl").val()	+ ";" + data.fileName);
+		} else {
+			$("#listPicUrl").val(data.fileName);
+		}
+		console.log("listPicUrl:"+$("#listPicUrl").val());
+		initDelBtn();
+	};
+	//初始化删除按钮
+	var initDelBtn=function() {
+		$('.hh_close').unbind().bind('click', function () {
+			var imgSrc = $(this).parent().find("img").attr("src");
+			console.log("imgSrc:"+imgSrc);
+			$("#primaryPicUrl").val('');
+			$(this).parent().remove();
+		})
+	};
+</script>
+</body>
+</html>
