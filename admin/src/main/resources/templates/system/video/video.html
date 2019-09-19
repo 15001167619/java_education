@@ -12,7 +12,7 @@
 			</div>
 			
 	        <div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:video:add">
+				<a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="system:video:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
 			</div>
@@ -26,6 +26,8 @@
         var editFlag = [[${@permission.hasPermi('system:video:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:video:remove')}]];
         var prefix = ctx + "system/video";
+		var isRecommendData = [[${@dict.getType('is_recommend')}]];
+		var isFreeData = [[${@dict.getType('is_free')}]];
 
         $(function() {
             var options = {
@@ -52,22 +54,30 @@
 				{
 					field : 'picPath', 
 					title : '视频封面',
-					sortable: false
+					formatter: function (v, row, index) {
+						return "<img style='width:60px;height:60px;' src='/upload/" + v + "'/>"
+					}
 				},
 				{
-					field : 'category', 
-					title : '类别',
+					field : 'categoryName',
+					title : '所属分类',
 					sortable: false
 				},
 				{
 					field : 'isRecommend', 
 					title : '是否推荐',
-					sortable: false
+					align: "left",
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(isRecommendData, row.isRecommend);
+					}
 				},
 				{
 					field : 'isFree', 
 					title : '是否收费',
-					sortable: false
+					align: "left",
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(isFreeData, row.isFree);
+					}
 				},
 				{
 					field : 'createTime', 

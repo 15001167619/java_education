@@ -79,5 +79,10 @@ public class VideoServiceImpl implements IVideoService
 	{
 		return videoMapper.deleteVideoByIds(Convert.toStrArray(ids));
 	}
-	
+
+	@Override
+	public List<Video> findVideoList(Video video) {
+		return videoMapper.findVideoList(video);
+	}
+
 }

@@ -50,7 +50,7 @@ public class VideoController extends BaseController
 	public TableDataInfo list(Video video)
 	{
 		startPage();
-        List<Video> list = videoService.selectVideoList(video);
+        List<Video> list = videoService.findVideoList(video);
 		return getDataTable(list);
 	}
 	

@@ -27,6 +27,17 @@ public class Video extends BaseEntity
 	private String picPath;
 	/** 视频地址 */
 	private String linkPath;
+
+	private String categoryName;
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	/** 类别 */
 	private Integer category;
 	/** 启用状态 0 正常 1 停用 */

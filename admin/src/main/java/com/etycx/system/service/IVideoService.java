@@ -50,5 +50,6 @@ public interface IVideoService
      * @return 结果
      */
 	public int deleteVideoByIds(String ids);
-	
+
+	List<Video> findVideoList(Video video);
 }

@@ -38,6 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="createTime != null "> and create_time = #{createTime}</if>
          </where>
     </select>
+
+    <select id="findVideoList" parameterType="Video" resultType="Video">
+        select v.id,v.name,v.pic_path picPpath,v.`status`,v.is_recommend isRecommend,v.is_free isFree,v.create_time createTime
+ ,c.name as categoryName from video v,category c where v.`category` = c.id
+    </select>
     
     <select id="selectVideoById" parameterType="Integer" resultMap="VideoResult">
         <include refid="selectVideoVo"/>
