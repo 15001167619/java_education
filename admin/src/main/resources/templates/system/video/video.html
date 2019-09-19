@@ -8,54 +8,6 @@
 		<div class="row">
 			<div class="col-sm-12 search-collapse">
 				<form id="formId">
-					<div class="select-list">
-						<ul>
-							<li>
-								名称：<input type="text" name="name"/>
-							</li>
-
-							<li>
-								视频简介：<input type="text" name="briefIntroduction"/>
-							</li>
-
-							<li>
-								视频内容：<input type="text" name="content"/>
-							</li>
-
-							<li>
-								图片路径：<input type="text" name="picPath"/>
-							</li>
-
-							<li>
-								视频地址：<input type="text" name="linkPath"/>
-							</li>
-
-							<li>
-								类别：<input type="text" name="category"/>
-							</li>
-
-							<li>
-								启用状态 0 正常 1 停用：<input type="text" name="status"/>
-							</li>
-
-							<li>
-								是否推荐 0 正常 1 推荐：<input type="text" name="isRecommend"/>
-							</li>
-
-							<li>
-								是否收费 0 正常 1 付费：<input type="text" name="isFree"/>
-							</li>
-
-							<li>
-								创建时间：<input type="text" name="createTime"/>
-							</li>
-
-							<li>
-								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-							</li>
-						</ul>
-					</div>
 				</form>
 			</div>
 			
@@ -63,15 +15,6 @@
 				<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:video:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
-				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="system:video:edit">
-					<i class="fa fa-edit"></i> 修改
-				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:video:remove">
-					<i class="fa fa-remove"></i> 删除
-				</a>
-				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:video:export">
-						<i class="fa fa-download"></i> 导出
-				 </a>
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -104,52 +47,32 @@
 				{
 					field : 'name', 
 					title : '名称',
-					sortable: true
-				},
-				{
-					field : 'briefIntroduction', 
-					title : '视频简介',
-					sortable: true
-				},
-				{
-					field : 'content', 
-					title : '视频内容',
-					sortable: true
+					sortable: false
 				},
 				{
 					field : 'picPath', 
-					title : '图片路径',
-					sortable: true
-				},
-				{
-					field : 'linkPath', 
-					title : '视频地址',
-					sortable: true
+					title : '视频封面',
+					sortable: false
 				},
 				{
 					field : 'category', 
 					title : '类别',
-					sortable: true
-				},
-				{
-					field : 'status', 
-					title : '启用状态 0 正常 1 停用',
-					sortable: true
+					sortable: false
 				},
 				{
 					field : 'isRecommend', 
-					title : '是否推荐 0 正常 1 推荐',
-					sortable: true
+					title : '是否推荐',
+					sortable: false
 				},
 				{
 					field : 'isFree', 
-					title : '是否收费 0 正常 1 付费',
-					sortable: true
+					title : '是否收费',
+					sortable: false
 				},
 				{
 					field : 'createTime', 
-					title : '创建时间',
-					sortable: true
+					title : '发布时间',
+					sortable: false
 				},
 		        {
 		            title: '操作',
