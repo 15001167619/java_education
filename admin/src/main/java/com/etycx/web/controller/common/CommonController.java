@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.etycx.common.config.Global;
@@ -18,6 +19,7 @@ import com.etycx.common.core.domain.AjaxResult;
 import com.etycx.common.utils.StringUtils;
 import com.etycx.common.utils.file.FileUploadUtils;
 import com.etycx.common.utils.file.FileUtils;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * 通用请求处理
@@ -84,6 +86,31 @@ public class CommonController
             String filePath = Global.getUploadPath();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
+            String url = serverConfig.getUrl() + UPLOAD_PATH + fileName;
+            AjaxResult ajax = AjaxResult.success();
+            ajax.put("fileName", fileName);
+            ajax.put("url", url);
+            return ajax;
+        }
+        catch (Exception e)
+        {
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 通用上传请求
+     */
+    @PostMapping("common/uploadVideoFile")
+    @ResponseBody
+    public AjaxResult uploadVideoFile(HttpServletRequest request, @RequestParam("uploadFile") MultipartFile file) throws Exception
+    {
+        try
+        {
+            // 上传文件路径
+            String filePath = Global.getUploadPath();
+            // 上传并返回新文件名称
+            String fileName = FileUploadUtils.uploadVideo(filePath, file);
             String url = serverConfig.getUrl() + UPLOAD_PATH + fileName;
             AjaxResult ajax = AjaxResult.success();
             ajax.put("fileName", fileName);

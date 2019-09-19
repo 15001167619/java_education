@@ -88,6 +88,18 @@ public class FileUploadUtils
         }
     }
 
+    public static final String uploadVideo(String baseDir, MultipartFile file) throws IOException
+    {
+        try
+        {
+            String originalFilename = file.getOriginalFilename();
+            return upload(baseDir, file, originalFilename.substring(originalFilename.lastIndexOf(".")));
+        }
+        catch (Exception e)
+        {
+            throw new IOException(e.getMessage(), e);
+        }
+    }
     /**
      * 文件上传
      *
