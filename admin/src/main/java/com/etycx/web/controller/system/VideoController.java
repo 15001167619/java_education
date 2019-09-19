@@ -96,6 +96,8 @@ public class VideoController extends BaseController
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
 		Video video = videoService.selectVideoById(id);
+		video.setPicPath("/upload/"+video.getPicPath());
+		video.setLinkPath("/upload/"+video.getLinkPath());
 		mmap.put("video", video);
 	    return prefix + "/edit";
 	}
