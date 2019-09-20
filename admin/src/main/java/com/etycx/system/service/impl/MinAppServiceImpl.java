@@ -2,12 +2,16 @@ package com.etycx.system.service.impl;
 
 import com.etycx.common.base.BaseVo;
 import com.etycx.system.domain.Banner;
+import com.etycx.system.domain.Video;
 import com.etycx.system.mapper.*;
 import com.etycx.system.service.IMinAppService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MinAppServiceImpl implements IMinAppService {
@@ -67,5 +71,48 @@ public class MinAppServiceImpl implements IMinAppService {
         resultData.put("teachers",teacherList);
 
         return baseVo.ok(resultData,"获取首页信息成功");
+    }
+
+    @Override
+    public BaseVo categoryList() {
+        BaseVo baseVo = new BaseVo();
+        List<HashMap> categoryList = categoryMapper.getCategoryList();
+        for (HashMap categoryMap : categoryList) {
+            categoryMap.put("picPath",baseUrl+categoryMap.get("picPath"));
+        }
+        return baseVo.ok(categoryList,"获取课程分类成功");
+    }
+
+    @Override
+    public BaseVo videoList(Integer categoryId, Integer pageNum, Integer pageSize) {
+        BaseVo baseVo = new BaseVo();
+        Video video = new Video();
+        video.setCategory(categoryId);
+        PageHelper.startPage(pageNum,pageSize);
+        List<Video> doctorList = videoMapper.selectVideoList(video);
+        PageInfo<Video> pageInfo = new PageInfo<>(doctorList);
+        List<Map<String, Object>> resultData = doctorList
+                .stream()
+                .map(Video::toMap)
+                .collect(Collectors.toList());
+        return baseVo.ok(baseVo.findDataMapPage(pageInfo, resultData),"获取课程视频成功");
+
+
+    }
+
+    @Override
+    public BaseVo video(Integer videoId) {
+        BaseVo baseVo = new BaseVo();
+        Video video = videoMapper.selectVideoById(videoId);
+        Map<String,Object> map = new HashMap<>(5);
+        if(video!=null){
+            map.put("videoId",video.getId());
+            map.put("name",video.getName());
+            map.put("briefIntroduction",video.getBriefIntroduction());
+            map.put("picPath",baseUrl+video.getPicPath());
+            map.put("linkPath",baseUrl+video.getLinkPath());
+            return baseVo.ok(map,"获取课程视频详情成功");
+        }
+        return baseVo.ok(null,"获取课程视频详情成功");
     }
 }

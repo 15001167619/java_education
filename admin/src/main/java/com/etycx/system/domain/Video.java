@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.etycx.common.core.domain.BaseEntity;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 /**
  * 视频 表 video
@@ -164,4 +165,15 @@ public class Video extends BaseEntity
             .append("createTime", getCreateTime())
             .toString();
     }
+
+
+	public static LinkedHashMap<String, Object> toMap(Video video){
+		String baseUrl = "https://muxiaoqian.com";
+		LinkedHashMap<String, Object> map = new LinkedHashMap<>(4);
+		map.put("videoId",video.getId());
+		map.put("name",video.getName());
+		map.put("briefIntroduction",video.getBriefIntroduction());
+		map.put("picPath",baseUrl+video.getPicPath());
+		return map;
+	}
 }
