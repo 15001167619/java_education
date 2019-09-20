@@ -8,54 +8,13 @@
 		<div class="row">
 			<div class="col-sm-12 search-collapse">
 				<form id="formId">
-					<div class="select-list">
-						<ul>
-							<li>
-								名称：<input type="text" name="name"/>
-							</li>
-
-							<li>
-								简介：<input type="text" name="briefIntroduction"/>
-							</li>
-
-							<li>
-								图片路径：<input type="text" name="picPath"/>
-							</li>
-
-							<li>
-								排序：<input type="text" name="sort"/>
-							</li>
-
-							<li>
-								启用状态 0 正常 1 停用：<input type="text" name="status"/>
-							</li>
-
-							<li>
-								创建时间：<input type="text" name="createTime"/>
-							</li>
-
-							<li>
-								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-							</li>
-						</ul>
-					</div>
 				</form>
 			</div>
 			
 	        <div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:teachers:add">
+				<a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="system:teachers:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
-				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="system:teachers:edit">
-					<i class="fa fa-edit"></i> 修改
-				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:teachers:remove">
-					<i class="fa fa-remove"></i> 删除
-				</a>
-				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:teachers:export">
-						<i class="fa fa-download"></i> 导出
-				 </a>
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -88,31 +47,23 @@
 				{
 					field : 'name', 
 					title : '名称',
-					sortable: true
+					sortable: false
 				},
 				{
 					field : 'briefIntroduction', 
 					title : '简介',
-					sortable: true
+					sortable: false
 				},
 				{
-					field : 'picPath', 
-					title : '图片路径',
-					sortable: true
-				},
-				{
-					field : 'sort', 
-					title : '排序',
-					sortable: true
-				},
-				{
-					field : 'status', 
-					title : '启用状态 0 正常 1 停用',
-					sortable: true
+					field : 'picPath',
+					title : '图片详情',
+					formatter: function (v, row, index) {
+						return "<img style='width:60px;height:60px;' src='" + v + "'/>"
+					}
 				},
 				{
 					field : 'createTime', 
-					title : '创建时间',
+					title : '添加时间',
 					sortable: true
 				},
 		        {
