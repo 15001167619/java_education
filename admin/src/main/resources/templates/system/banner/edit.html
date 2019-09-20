@@ -68,7 +68,7 @@
 			<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
 		</div>
 	</div>
-	<input id="sort" name="sort" class="form-control" type="text" value="0" hidden>
+	<input id="sort" name="sort" class="form-control" type="hidden" value="0">
 	<input type="hidden" id="primaryPicUrl" th:field="*{picPath}" name="picPath">
 </form>
 <div th:include="include::footer"></div>
