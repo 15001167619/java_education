@@ -74,5 +74,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getBrandInfo" resultType="map">
+        select id,name,brief_introduction briefIntroduction,pic_path picPath from brand limit 1
+    </select>
     
 </mapper>

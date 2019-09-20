@@ -1,7 +1,8 @@
 package com.etycx.system.mapper;
 
 import com.etycx.system.domain.Brand;
-import java.util.List;	
+import java.util.List;
+import java.util.Map;
 
 /**
  * 品牌介绍 数据层
@@ -58,5 +59,6 @@ public interface BrandMapper
      * @return 结果
      */
 	public int deleteBrandByIds(String[] ids);
-	
+
+    Map getBrandInfo();
 }

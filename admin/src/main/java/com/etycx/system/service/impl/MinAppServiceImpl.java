@@ -2,8 +2,7 @@ package com.etycx.system.service.impl;
 
 import com.etycx.common.base.BaseVo;
 import com.etycx.system.domain.Banner;
-import com.etycx.system.mapper.BannerMapper;
-import com.etycx.system.mapper.CategoryMapper;
+import com.etycx.system.mapper.*;
 import com.etycx.system.service.IMinAppService;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,20 @@ public class MinAppServiceImpl implements IMinAppService {
     private BannerMapper bannerMapper;
     @Resource
     private CategoryMapper categoryMapper;
+    @Resource
+    private VideoMapper videoMapper;
+    @Resource
+    private BrandMapper brandMapper;
+    @Resource
+    private TeachersMapper teachersMapper;
 
-    private final String baseUrl = "https://muxiaoqian.com/";
+    private final String baseUrl = "https://muxiaoqian.com";
 
     @Override
     public BaseVo index() {
         BaseVo baseVo = new BaseVo();
+
+        //首页轮播
         List<Banner> banners = bannerMapper.selectBannerList(new Banner());
         List<Map<String,Object>> bannerList = new ArrayList<>(banners.size());
         for (Banner banner : banners) {
@@ -33,12 +40,32 @@ public class MinAppServiceImpl implements IMinAppService {
         Map<String,Object> resultData = new HashMap<>(5);
         resultData.put("banner",bannerList);
 
+        //课程分类
         List<HashMap> categoryList = categoryMapper.getCategoryList();
-        List<Map<String,Object>> categoryMapList = new ArrayList<>(categoryList.size());
-        for (HashMap linkedHashMap : categoryList) {
-            linkedHashMap.put("picPath",baseUrl+linkedHashMap.get("picPath"));
+        for (HashMap categoryMap : categoryList) {
+            categoryMap.put("picPath",baseUrl+categoryMap.get("picPath"));
         }
         resultData.put("category",categoryList);
-        return baseVo.ok(resultData,"获取banner列表成功");
+
+        //推荐课程
+        List<HashMap> recommendVideoList = videoMapper.getCategoryList();
+        for (HashMap recommendVideoMap : recommendVideoList) {
+            recommendVideoMap.put("picPath",baseUrl+recommendVideoMap.get("picPath"));
+        }
+        resultData.put("recommendVideo",recommendVideoList);
+
+        //品牌介绍
+        Map brandInfo = brandMapper.getBrandInfo();
+        brandInfo.put("picPath",baseUrl+brandInfo.get("picPath"));
+        resultData.put("brandInfo",brandInfo);
+
+        //师资力量
+        List<HashMap> teacherList = teachersMapper.getTeachersList();
+        for (HashMap teacherMap : teacherList) {
+            teacherMap.put("picPath",baseUrl+teacherMap.get("picPath"));
+        }
+        resultData.put("teachers",teacherList);
+
+        return baseVo.ok(resultData,"获取首页信息成功");
     }
 }

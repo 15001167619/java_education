@@ -1,7 +1,9 @@
 package com.etycx.system.mapper;
 
 import com.etycx.system.domain.Video;
-import java.util.List;	
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 视频  数据层
@@ -60,4 +62,6 @@ public interface VideoMapper
 	public int deleteVideoByIds(String[] ids);
 
 	List<Video> findVideoList(Video video);
+
+    List<HashMap> getCategoryList();
 }

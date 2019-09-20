@@ -1,7 +1,9 @@
 package com.etycx.system.mapper;
 
 import com.etycx.system.domain.Teachers;
-import java.util.List;	
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 老师  数据层
@@ -58,5 +60,6 @@ public interface TeachersMapper
      * @return 结果
      */
 	public int deleteTeachersByIds(String[] ids);
-	
+
+    List<HashMap> getTeachersList();
 }
