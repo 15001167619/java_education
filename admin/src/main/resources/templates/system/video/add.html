@@ -304,7 +304,7 @@
 							+'<source src="'+result.url+'" type="video/mp4"></video>'
 					$("#source_video").append(videoHtml)
 					$("#video_page").show();
-					$("#linkPath").val(result.fileName);
+					$("#linkPath").val('/upload/'+result.fileName);
 					var myPlayer = videojs('my-video');
 					videojs("my-video").ready(function(){
 						var myPlayer = this;
@@ -331,7 +331,7 @@
 					console.log(result.url)
 					$("#videoPic").attr("src",result.url);
 					$("#videoDiv").show();
-					$("#picPath").val(result.fileName);
+					$("#picPath").val('/upload/'+result.fileName);
 				}
 			});
 		}
