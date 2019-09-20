@@ -2,6 +2,7 @@ package com.etycx.system.service;
 
 import com.etycx.system.domain.Category;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,5 +55,5 @@ public interface ICategoryService
      */
 	public int deleteCategoryByIds(String ids);
 
-	List<LinkedHashMap> getCategoryList();
+	List<HashMap> getCategoryList();
 }

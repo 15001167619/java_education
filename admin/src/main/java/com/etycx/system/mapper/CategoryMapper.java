@@ -63,5 +63,5 @@ public interface CategoryMapper
      */
 	public int deleteCategoryByIds(String[] ids);
 
-    List<LinkedHashMap> getCategoryList();
+    List<HashMap> getCategoryList();
 }

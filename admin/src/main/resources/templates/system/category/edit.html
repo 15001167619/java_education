@@ -159,7 +159,7 @@
 		node.push('</span>');
 		$(elem).find('.info_list').empty();
 		$(elem).find('.info_list').eq(0).append(node.join(''));
-		$("#primaryPicUrl").val(data.fileName);
+		$("#primaryPicUrl").val('/upload/'+data.fileName);
 		console.log("primaryPicUrl:"+$("#primaryPicUrl").val());
 		initDelBtn();
 	};

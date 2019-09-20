@@ -50,7 +50,7 @@
 			<form id="primaryPicForm" class="form-horizontal">
 				<div class="info_list">
 						<span class="hh_span por tc">
-							<img  class="media" width="100px" height="100px" th:src="'/upload/'+${banner.picPath}"/>
+							<img  class="media" width="100px" height="100px" th:src="${banner.picPath}"/>
 							<i class="fa fa-times-circle-o hh_close"></i>
 						</span>
 				</div>
@@ -159,7 +159,7 @@
 		node.push('</span>');
 		$(elem).find('.info_list').empty();
 		$(elem).find('.info_list').eq(0).append(node.join(''));
-		$("#primaryPicUrl").val(data.fileName);
+		$("#primaryPicUrl").val('/upload/'+data.fileName);
 		console.log("primaryPicUrl:"+$("#primaryPicUrl").val());
 		initDelBtn();
 	};

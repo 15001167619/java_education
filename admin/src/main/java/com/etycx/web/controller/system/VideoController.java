@@ -1,5 +1,6 @@
 package com.etycx.web.controller.system;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class VideoController extends BaseController
 	    return prefix + "/edit";
 	}
 
-	private List<LinkedHashMap> getCategoryList() {
+	private List<HashMap> getCategoryList() {
 		return categoryService.getCategoryList();
 	}
 

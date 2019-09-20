@@ -1,5 +1,6 @@
 package com.etycx.system.service.impl;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class CategoryServiceImpl implements ICategoryService
 	}
 
 	@Override
-	public List<LinkedHashMap> getCategoryList() {
+	public List<HashMap> getCategoryList() {
 		return categoryMapper.getCategoryList();
 	}
 
