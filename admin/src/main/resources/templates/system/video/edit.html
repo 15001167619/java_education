@@ -68,8 +68,10 @@
 
 			<div class="form-group">
 				<label class="col-sm-3 control-label">课程类别</label>
-				<div class="col-sm-8">
-					<input id="category" name="category" th:field="*{category}" class="form-control" type="text">
+				<div class="col-sm-3">
+					 <select name="category" id="category" class="form-control m-b">
+					            <option th:each="categoryInfo,userStat:${categoryList}" th:value="${categoryInfo.id}" th:text="${categoryInfo.name}" th:field="*{category}"></option>
+					 </select>
 				</div>
 			</div>
 
@@ -274,10 +276,63 @@
 		});
 		
 		function submitHandler() {
+			var sHTML = $('.summernote').summernote('code');
+			$("#briefIntroduction").val(sHTML);
 	        if ($.validate.form()) {
 	            $.operate.save(prefix + "/edit", $('#form-video-edit').serialize());
 	        }
 	    }
+
+		function videoAjax() {
+			var uploadFile = $("#videoFile")[0].files[0];
+			console.log(uploadFile);
+			var formData = new FormData();
+			formData.append("uploadFile", uploadFile);
+			$.ajax({
+				url: '/common/uploadVideoFile',
+				type: 'POST',
+				data: formData,
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (result) {
+					$("#source_video").html('');
+					var videoHtml = '<video id="my-video" class="video-js" controls preload="auto" width="960" height="400"  data-setup="{}">'
+							+'<source src="'+result.url+'" type="video/mp4"></video>'
+					$("#source_video").append(videoHtml)
+					$("#video_page").show();
+					$("#linkPath").val('/upload/'+result.fileName);
+					var myPlayer = videojs('my-video');
+					videojs("my-video").ready(function(){
+						var myPlayer = this;
+						myPlayer.play();
+					});
+				}
+			});
+		}
+
+		function videoPicAjax() {
+			var uploadFile = $("#videoPicFile")[0].files[0];
+			var formData = new FormData();
+			formData.append("uploadFile", uploadFile);
+			$.ajax({
+				url: '/common/uploadVideoFile',
+				type: 'POST',
+				data: formData,
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (result) {
+				debugger
+					console.log(result.url)
+					$("#videoPic").attr("src",result.url);
+					$("#videoDiv").show();
+					$("#picPath").val('/upload/'+result.fileName);
+				}
+			});
+		}
 	</script>
 </body>
 </html>

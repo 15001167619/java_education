@@ -1,7 +1,10 @@
 package com.etycx.system.service;
 
 import com.etycx.system.domain.Category;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课程分类  服务层
@@ -50,5 +53,6 @@ public interface ICategoryService
      * @return 结果
      */
 	public int deleteCategoryByIds(String ids);
-	
+
+	List<LinkedHashMap> getCategoryList();
 }

@@ -1,7 +1,11 @@
 package com.etycx.system.mapper;
 
 import com.etycx.system.domain.Category;
-import java.util.List;	
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 课程分类  数据层
@@ -58,5 +62,6 @@ public interface CategoryMapper
      * @return 结果
      */
 	public int deleteCategoryByIds(String[] ids);
-	
+
+    List<LinkedHashMap> getCategoryList();
 }

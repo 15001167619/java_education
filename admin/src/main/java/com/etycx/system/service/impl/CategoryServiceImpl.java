@@ -1,6 +1,9 @@
 package com.etycx.system.service.impl;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etycx.system.mapper.CategoryMapper;
@@ -79,5 +82,10 @@ public class CategoryServiceImpl implements ICategoryService
 	{
 		return categoryMapper.deleteCategoryByIds(Convert.toStrArray(ids));
 	}
-	
+
+	@Override
+	public List<LinkedHashMap> getCategoryList() {
+		return categoryMapper.getCategoryList();
+	}
+
 }
