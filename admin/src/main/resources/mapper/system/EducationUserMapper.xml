@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etycx.system.mapper.EducationUserMapper">
+    
+    <resultMap type="EducationUser" id="EducationUserResult">
+        <result property="id"    column="id"    />
+        <result property="account"    column="account"    />
+        <result property="password"    column="password"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectEducationUserVo">
+        select id, account, password, remarks, create_time from education_user
+    </sql>
+	
+    <select id="selectEducationUserList" parameterType="EducationUser" resultMap="EducationUserResult">
+        <include refid="selectEducationUserVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="account != null  and account != '' "> and account = #{account}</if>
+             <if test="password != null  and password != '' "> and password = #{password}</if>
+             <if test="remarks != null  and remarks != '' "> and remarks = #{remarks}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectEducationUserById" parameterType="Integer" resultMap="EducationUserResult">
+        <include refid="selectEducationUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEducationUser" parameterType="EducationUser" useGeneratedKeys="true" keyProperty="id">
+        insert into education_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="account != null  and account != ''  ">account,</if>
+			<if test="password != null  and password != ''  ">password,</if>
+			<if test="remarks != null  and remarks != ''  ">remarks,</if>
+			<if test="createTime != null  ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="account != null  and account != ''  ">#{account},</if>
+			<if test="password != null  and password != ''  ">#{password},</if>
+			<if test="remarks != null  and remarks != ''  ">#{remarks},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateEducationUser" parameterType="EducationUser">
+        update education_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="account != null  and account != ''  ">account = #{account},</if>
+            <if test="password != null  and password != ''  ">password = #{password},</if>
+            <if test="remarks != null  and remarks != ''  ">remarks = #{remarks},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteEducationUserById" parameterType="Integer">
+        delete from education_user where id = #{id}
+    </delete>
+	
+    <delete id="deleteEducationUserByIds" parameterType="String">
+        delete from education_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
