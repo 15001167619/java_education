@@ -1,7 +1,5 @@
 package com.etycx.rest.index;
 
-import com.etycx.common.utils.StringUtils;
-import com.etycx.remote.service.IExampleService;
 import com.etycx.system.service.IMinAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
