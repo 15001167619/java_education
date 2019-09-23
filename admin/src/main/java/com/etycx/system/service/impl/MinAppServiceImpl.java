@@ -1,12 +1,16 @@
 package com.etycx.system.service.impl;
 
 import com.etycx.common.base.BaseVo;
+import com.etycx.framework.shiro.service.SysPasswordService;
+import com.etycx.system.domain.Appointment;
 import com.etycx.system.domain.Banner;
+import com.etycx.system.domain.EducationUser;
 import com.etycx.system.domain.Video;
 import com.etycx.system.mapper.*;
 import com.etycx.system.service.IMinAppService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +30,12 @@ public class MinAppServiceImpl implements IMinAppService {
     private BrandMapper brandMapper;
     @Resource
     private TeachersMapper teachersMapper;
+    @Resource
+    private AppointmentMapper appointmentMapper;
+    @Resource
+    private EducationUserMapper educationUserMapper;
+    @Autowired
+    private SysPasswordService passwordService;
 
     private final String baseUrl = "https://muxiaoqian.com";
 
@@ -114,5 +124,29 @@ public class MinAppServiceImpl implements IMinAppService {
             return baseVo.ok(map,"获取课程视频详情成功");
         }
         return baseVo.ok(null,"获取课程视频详情成功");
+    }
+
+    @Override
+    public BaseVo login(String account, String password) {
+        BaseVo baseVo = new BaseVo();
+        EducationUser educationUser = new EducationUser();
+        educationUser.setAccount(account);
+        educationUser.setPassword(passwordService.encryptPassword(account, password, "salt"));
+        List<EducationUser> educationUsers = educationUserMapper.selectEducationUserList(educationUser);
+        if(educationUsers != null && educationUsers.size()==1){
+            return baseVo.ok(educationUsers.get(0),"用户登录成功");
+        }
+        return baseVo.error(null,404,"用户不存在");
+    }
+
+    @Override
+    public BaseVo appointment(String name, String mobile, Integer age) {
+        BaseVo baseVo = new BaseVo();
+        Appointment appointment = new Appointment();
+        appointmentMapper.insertAppointment(appointment);
+        appointment.setName(name);
+        appointment.setMobile(mobile);
+        appointment.setAge(age);
+        return baseVo.ok(null,"预约成功");
     }
 }

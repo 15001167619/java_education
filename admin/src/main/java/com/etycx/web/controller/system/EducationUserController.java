@@ -1,6 +1,8 @@
 package com.etycx.web.controller.system;
 
 import java.util.List;
+
+import com.etycx.framework.shiro.service.SysPasswordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,9 @@ public class EducationUserController extends BaseController
 	
 	@Autowired
 	private IEducationUserService educationUserService;
+
+	@Autowired
+	private SysPasswordService passwordService;
 	
 	@RequiresPermissions("system:educationUser:view")
 	@GetMapping()
@@ -85,7 +90,8 @@ public class EducationUserController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(EducationUser educationUser)
-	{		
+	{
+		educationUser.setPassword(passwordService.encryptPassword(educationUser.getAccount(), educationUser.getPassword(), "salt"));
 		return toAjax(educationUserService.insertEducationUser(educationUser));
 	}
 

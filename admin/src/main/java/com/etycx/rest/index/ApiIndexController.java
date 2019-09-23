@@ -1,5 +1,7 @@
 package com.etycx.rest.index;
 
+import com.etycx.common.base.BaseApiController;
+import com.etycx.common.utils.StringUtils;
 import com.etycx.system.service.IMinAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
         methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
 @RequestMapping(value = "api/index")
-public class ApiIndexController {
+public class ApiIndexController extends BaseApiController {
 
     @Autowired
     private IMinAppService minAppService;
@@ -40,6 +42,31 @@ public class ApiIndexController {
     @RequestMapping(value={"video"}, method= RequestMethod.GET)
     public Object video(@RequestParam(value = "videoId") Integer videoId) {
         return minAppService.video(videoId);
+    }
+
+    /**
+     * @description  用户登录
+     */
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public Object login(@RequestParam("account") String account,
+                        @RequestParam("password") String password) {
+        if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
+            return isNullData();
+        }
+        return minAppService.login(account,password);
+    }
+
+    /**
+     * @description  用户预约
+     */
+    @RequestMapping(value = "appointment", method = RequestMethod.POST)
+    public Object appointment(@RequestParam("name") String name,
+                              @RequestParam("mobile") String mobile,
+                              @RequestParam("age") Integer age) {
+        if (StringUtils.isEmpty(name) || StringUtils.isEmpty(mobile) || age ==null) {
+            return isNullData();
+        }
+        return minAppService.appointment(name,mobile,age);
     }
 
 

@@ -11,4 +11,8 @@ public interface IMinAppService {
     BaseVo videoList(Integer categoryId, Integer pageNum, Integer pageSize);
 
     BaseVo video(Integer videoId);
+
+    BaseVo login(String account, String password);
+
+    BaseVo appointment(String name, String mobile, Integer age);
 }
