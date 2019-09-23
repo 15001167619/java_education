@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="Activity" id="ActivityResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
+        <result property="category"    column="category"    />
         <result property="briefIntroduction"    column="brief_introduction"    />
         <result property="content"    column="content"    />
         <result property="picPath"    column="pic_path"    />
@@ -14,13 +15,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectActivityVo">
-        select id, name, brief_introduction, content, pic_path, create_time from activity
+        select id, name,category, brief_introduction, content, pic_path, create_time from activity
     </sql>
 	
     <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">
         <include refid="selectActivityVo"/>
         <where>  
             <if test="id != null "> and id = #{id}</if>
+            <if test="category != null "> and category = #{category}</if>
              <if test="name != null  and name != '' "> and name = #{name}</if>
              <if test="briefIntroduction != null  and briefIntroduction != '' "> and brief_introduction = #{briefIntroduction}</if>
              <if test="content != null  and content != '' "> and content = #{content}</if>
@@ -38,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into activity
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="name != null  and name != ''  ">name,</if>
+            <if test="category != null  ">category,</if>
 			<if test="briefIntroduction != null  and briefIntroduction != ''  ">brief_introduction,</if>
 			<if test="content != null  and content != ''  ">content,</if>
 			<if test="picPath != null  and picPath != ''  ">pic_path,</if>
@@ -45,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="name != null  and name != ''  ">#{name},</if>
+            <if test="category != null  ">#{category},</if>
 			<if test="briefIntroduction != null  and briefIntroduction != ''  ">#{briefIntroduction},</if>
 			<if test="content != null  and content != ''  ">#{content},</if>
 			<if test="picPath != null  and picPath != ''  ">#{picPath},</if>
@@ -56,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update activity
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="category != null  ">category = #{category},</if>
             <if test="briefIntroduction != null  and briefIntroduction != ''  ">brief_introduction = #{briefIntroduction},</if>
             <if test="content != null  and content != ''  ">content = #{content},</if>
             <if test="picPath != null  and picPath != ''  ">pic_path = #{picPath},</if>
