@@ -1,7 +1,9 @@
 package com.etycx.system.mapper;
 
 import com.etycx.system.domain.ActivityCategory;
-import java.util.List;	
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 活动分类  数据层
@@ -58,5 +60,6 @@ public interface ActivityCategoryMapper
      * @return 结果
      */
 	public int deleteActivityCategoryByIds(String[] ids);
-	
+
+    List<HashMap> getCategoryList();
 }

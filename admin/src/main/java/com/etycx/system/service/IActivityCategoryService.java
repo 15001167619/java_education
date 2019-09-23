@@ -1,6 +1,8 @@
 package com.etycx.system.service;
 
 import com.etycx.system.domain.ActivityCategory;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,5 +52,6 @@ public interface IActivityCategoryService
      * @return 结果
      */
 	public int deleteActivityCategoryByIds(String ids);
-	
+
+    List<HashMap> getCategoryList();
 }

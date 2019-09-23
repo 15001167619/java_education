@@ -12,7 +12,7 @@
 			</div>
 			
 	        <div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:activityCategory:add">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:activity:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
 			</div>
@@ -23,9 +23,9 @@
 	</div>
     <div th:include="include :: footer"></div>
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:activityCategory:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:activityCategory:remove')}]];
-        var prefix = ctx + "system/activityCategory";
+        var editFlag = [[${@permission.hasPermi('system:activity:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:activity:remove')}]];
+        var prefix = ctx + "system/activity";
 
         $(function() {
             var options = {
@@ -34,7 +34,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
 				exportUrl: prefix + "/export",
-                modalName: "活动分类 ",
+                modalName: "活动",
 		        showExport: true,
                 columns: [{
 		            checkbox: true
@@ -46,7 +46,12 @@
 				},
 				{
 					field : 'name', 
-					title : '分类名称',
+					title : '活动名称',
+					sortable: false
+				},
+				{
+					field : 'picPath', 
+					title : '图片路径',
 					sortable: false
 				},
 				{

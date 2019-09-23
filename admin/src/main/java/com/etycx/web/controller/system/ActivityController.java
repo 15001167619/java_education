@@ -1,6 +1,9 @@
 package com.etycx.web.controller.system;
 
+import java.util.HashMap;
 import java.util.List;
+
+import com.etycx.system.service.IActivityCategoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +36,9 @@ public class ActivityController extends BaseController
 	
 	@Autowired
 	private IActivityService activityService;
+
+	@Autowired
+	private IActivityCategoryService activityCategoryService;
 	
 	@RequiresPermissions("system:activity:view")
 	@GetMapping()
@@ -72,9 +78,14 @@ public class ActivityController extends BaseController
 	 * 新增活动
 	 */
 	@GetMapping("/add")
-	public String add()
+	public String add(ModelMap mmap)
 	{
+		mmap.put("categoryList", getCategoryList());
 	    return prefix + "/add";
+	}
+
+	private List<HashMap> getCategoryList() {
+		return activityCategoryService.getCategoryList();
 	}
 	
 	/**
@@ -95,6 +106,7 @@ public class ActivityController extends BaseController
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
+		mmap.put("categoryList", getCategoryList());
 		Activity activity = activityService.selectActivityById(id);
 		mmap.put("activity", activity);
 	    return prefix + "/edit";

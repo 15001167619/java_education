@@ -1,5 +1,6 @@
 package com.etycx.system.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,5 +80,10 @@ public class ActivityCategoryServiceImpl implements IActivityCategoryService
 	{
 		return activityCategoryMapper.deleteActivityCategoryByIds(Convert.toStrArray(ids));
 	}
-	
+
+	@Override
+	public List<HashMap> getCategoryList() {
+		return activityCategoryMapper.getCategoryList();
+	}
+
 }

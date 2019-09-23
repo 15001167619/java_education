@@ -69,5 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getCategoryList" resultType="map">
+         select id,`name`from activity_category
+    </select>
     
 </mapper>

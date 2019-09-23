@@ -33,6 +33,8 @@ public class MinAppServiceImpl implements IMinAppService {
     private EducationUserMapper educationUserMapper;
     @Resource
     private AboutUsMapper aboutUsMapper;
+    @Resource
+    private ActivityCategoryMapper activityCategoryMapper;
     @Autowired
     private SysPasswordService passwordService;
 
@@ -164,6 +166,12 @@ public class MinAppServiceImpl implements IMinAppService {
             return baseVo.ok(map,"获取关于我们成功");
         }
         return baseVo.error("获取关于我们失败");
+    }
+
+    @Override
+    public BaseVo activityCategory() {
+        BaseVo baseVo = new BaseVo();
+        return baseVo.ok(activityCategoryMapper.getCategoryList(),"获取活动分类");
     }
 
 

@@ -77,5 +77,13 @@ public class ApiIndexController extends BaseApiController {
         return minAppService.aboutUs();
     }
 
+    /**
+     * @description  活动分类
+     */
+    @RequestMapping(value = "activityCategory", method = RequestMethod.GET)
+    public Object activityCategory() {
+        return minAppService.activityCategory();
+    }
+
 
 }

@@ -17,4 +17,6 @@ public interface IMinAppService {
     BaseVo appointment(String name, String mobile, Integer age);
 
     BaseVo aboutUs();
+
+    BaseVo activityCategory();
 }
