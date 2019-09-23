@@ -2,10 +2,7 @@ package com.etycx.system.service.impl;
 
 import com.etycx.common.base.BaseVo;
 import com.etycx.framework.shiro.service.SysPasswordService;
-import com.etycx.system.domain.Appointment;
-import com.etycx.system.domain.Banner;
-import com.etycx.system.domain.EducationUser;
-import com.etycx.system.domain.Video;
+import com.etycx.system.domain.*;
 import com.etycx.system.mapper.*;
 import com.etycx.system.service.IMinAppService;
 import com.github.pagehelper.PageHelper;
@@ -34,6 +31,8 @@ public class MinAppServiceImpl implements IMinAppService {
     private AppointmentMapper appointmentMapper;
     @Resource
     private EducationUserMapper educationUserMapper;
+    @Resource
+    private AboutUsMapper aboutUsMapper;
     @Autowired
     private SysPasswordService passwordService;
 
@@ -143,10 +142,29 @@ public class MinAppServiceImpl implements IMinAppService {
     public BaseVo appointment(String name, String mobile, Integer age) {
         BaseVo baseVo = new BaseVo();
         Appointment appointment = new Appointment();
+        appointment.setName(name);
+        appointment.setMobile(mobile);
+        appointment.setAge(age);
         appointmentMapper.insertAppointment(appointment);
         appointment.setName(name);
         appointment.setMobile(mobile);
         appointment.setAge(age);
-        return baseVo.ok(null,"预约成功");
+        return baseVo.ok(true,"预约成功");
     }
+
+    @Override
+    public BaseVo aboutUs() {
+        BaseVo baseVo = new BaseVo();
+        List<AboutUs> aboutUses = aboutUsMapper.selectAboutUsList(new AboutUs());
+        if(aboutUses!=null && aboutUses.size()==1){
+            Map<String,Object> map = new HashMap<>(3);
+            map.put("name",aboutUses.get(0).getName());
+            map.put("briefIntroduction",aboutUses.get(0).getBriefIntroduction());
+            map.put("picPath",baseUrl+aboutUses.get(0).getPicPath());
+            return baseVo.ok(map,"获取关于我们成功");
+        }
+        return baseVo.error("获取关于我们失败");
+    }
+
+
 }

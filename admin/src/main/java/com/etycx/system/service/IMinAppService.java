@@ -15,4 +15,6 @@ public interface IMinAppService {
     BaseVo login(String account, String password);
 
     BaseVo appointment(String name, String mobile, Integer age);
+
+    BaseVo aboutUs();
 }

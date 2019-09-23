@@ -33,19 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertAppointment" parameterType="Appointment" useGeneratedKeys="true" keyProperty="id">
-        insert into appointment
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null  and name != ''  ">name,</if>
-			<if test="mobile != null  and mobile != ''  ">mobile,</if>
-			<if test="age != null  ">age,</if>
-			<if test="createTime != null  ">create_time,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="name != null  and name != ''  ">#{name},</if>
-			<if test="mobile != null  and mobile != ''  ">#{mobile},</if>
-			<if test="age != null  ">#{age},</if>
-			<if test="createTime != null  ">#{createTime},</if>
-         </trim>
+        INSERT INTO `appointment` ( `name`, `mobile`, `age`, `create_time`) VALUES (#{name}, #{mobile},#{age}, now());
     </insert>
 	 
     <update id="updateAppointment" parameterType="Appointment">

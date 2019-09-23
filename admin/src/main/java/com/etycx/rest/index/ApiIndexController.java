@@ -69,5 +69,13 @@ public class ApiIndexController extends BaseApiController {
         return minAppService.appointment(name,mobile,age);
     }
 
+    /**
+     * @description  关于我们
+     */
+    @RequestMapping(value = "aboutUs", method = RequestMethod.GET)
+    public Object aboutUs() {
+        return minAppService.aboutUs();
+    }
+
 
 }
