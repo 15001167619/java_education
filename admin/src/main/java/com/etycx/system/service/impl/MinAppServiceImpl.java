@@ -193,7 +193,7 @@ public class MinAppServiceImpl implements IMinAppService {
     }
 
     @Override
-    public BaseVo activityCategory(Integer activityId) {
+    public BaseVo activity(Integer activityId) {
         BaseVo baseVo = new BaseVo();
         Activity activity = activityMapper.selectActivityById(activityId);
         Map<String,Object> map = new HashMap<>(3);

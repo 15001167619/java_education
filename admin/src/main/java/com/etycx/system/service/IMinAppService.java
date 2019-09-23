@@ -22,5 +22,5 @@ public interface IMinAppService {
 
     BaseVo activityCategoryList(Integer categoryId, Integer pageNum, Integer pageSize);
 
-    BaseVo activityCategory(Integer activityId);
+    BaseVo activity(Integer activityId);
 }

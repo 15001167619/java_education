@@ -93,9 +93,9 @@ public class ApiIndexController extends BaseApiController {
         return minAppService.activityCategoryList(categoryId,pageNum,pageSize);
     }
 
-    @RequestMapping(value={"activityCategory"}, method= RequestMethod.GET)
+    @RequestMapping(value={"activity"}, method= RequestMethod.GET)
     public BaseVo activityCategory(@RequestParam(value = "activityId") Integer activityId) {
-        return minAppService.activityCategory(activityId);
+        return minAppService.activity(activityId);
     }
 
 
