@@ -1,9 +1,11 @@
 package com.etycx.system.domain;
 
+import com.etycx.common.utils.DateUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.etycx.common.core.domain.BaseEntity;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 /**
  * 活动表 activity
@@ -17,6 +19,16 @@ public class Activity extends BaseEntity
 	
 	/** 主键id */
 	private Integer id;
+	private Integer category;
+
+	public Integer getCategory() {
+		return category;
+	}
+
+	public void setCategory(Integer category) {
+		this.category = category;
+	}
+
 	/** 名称 */
 	private String name;
 	/** 简介 */
@@ -93,4 +105,15 @@ public class Activity extends BaseEntity
             .append("createTime", getCreateTime())
             .toString();
     }
+
+	public static LinkedHashMap<String, Object> toMap(Activity activity){
+		String baseUrl = "https://muxiaoqian.com";
+		LinkedHashMap<String, Object> map = new LinkedHashMap<>(5);
+		map.put("activityId",activity.getId());
+		map.put("name",activity.getName());
+		map.put("briefIntroduction",activity.getBriefIntroduction());
+		map.put("picPath",baseUrl+activity.getPicPath());
+		map.put("time",DateUtils.dateTime(activity.getCreateTime()));
+		return map;
+	}
 }

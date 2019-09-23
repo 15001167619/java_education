@@ -1,6 +1,7 @@
 package com.etycx.system.service.impl;
 
 import com.etycx.common.base.BaseVo;
+import com.etycx.common.utils.DateUtils;
 import com.etycx.framework.shiro.service.SysPasswordService;
 import com.etycx.system.domain.*;
 import com.etycx.system.mapper.*;
@@ -35,6 +36,8 @@ public class MinAppServiceImpl implements IMinAppService {
     private AboutUsMapper aboutUsMapper;
     @Resource
     private ActivityCategoryMapper activityCategoryMapper;
+    @Resource
+    private ActivityMapper activityMapper;
     @Autowired
     private SysPasswordService passwordService;
 
@@ -100,9 +103,9 @@ public class MinAppServiceImpl implements IMinAppService {
         Video video = new Video();
         video.setCategory(categoryId);
         PageHelper.startPage(pageNum,pageSize);
-        List<Video> doctorList = videoMapper.selectVideoList(video);
-        PageInfo<Video> pageInfo = new PageInfo<>(doctorList);
-        List<Map<String, Object>> resultData = doctorList
+        List<Video> videoList = videoMapper.selectVideoList(video);
+        PageInfo<Video> pageInfo = new PageInfo<>(videoList);
+        List<Map<String, Object>> resultData = videoList
                 .stream()
                 .map(Video::toMap)
                 .collect(Collectors.toList());
@@ -172,6 +175,35 @@ public class MinAppServiceImpl implements IMinAppService {
     public BaseVo activityCategory() {
         BaseVo baseVo = new BaseVo();
         return baseVo.ok(activityCategoryMapper.getCategoryList(),"获取活动分类");
+    }
+
+    @Override
+    public BaseVo activityCategoryList(Integer categoryId, Integer pageNum, Integer pageSize) {
+        BaseVo baseVo = new BaseVo();
+        Activity activity = new Activity();
+        activity.setCategory(categoryId);
+        PageHelper.startPage(pageNum,pageSize);
+        List<Activity> activityList = activityMapper.selectActivityList(activity);
+        PageInfo<Activity> pageInfo = new PageInfo<>(activityList);
+        List<Map<String, Object>> resultData = activityList
+                .stream()
+                .map(Activity::toMap)
+                .collect(Collectors.toList());
+        return baseVo.ok(baseVo.findDataMapPage(pageInfo, resultData),"获取活动列表成功");
+    }
+
+    @Override
+    public BaseVo activityCategory(Integer activityId) {
+        BaseVo baseVo = new BaseVo();
+        Activity activity = activityMapper.selectActivityById(activityId);
+        Map<String,Object> map = new HashMap<>(3);
+        if(activity!=null){
+            map.put("name",activity.getName());
+            map.put("content",activity.getContent());
+            map.put("picPath",baseUrl+activity.getPicPath());
+            return baseVo.ok(map,"获取活动详情成功");
+        }
+        return baseVo.ok(null,"获取活动详情成功");
     }
 
 

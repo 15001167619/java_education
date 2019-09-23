@@ -1,6 +1,7 @@
 package com.etycx.rest.index;
 
 import com.etycx.common.base.BaseApiController;
+import com.etycx.common.base.BaseVo;
 import com.etycx.common.utils.StringUtils;
 import com.etycx.system.service.IMinAppService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,18 @@ public class ApiIndexController extends BaseApiController {
     @RequestMapping(value = "activityCategory", method = RequestMethod.GET)
     public Object activityCategory() {
         return minAppService.activityCategory();
+    }
+
+    @RequestMapping(value={"activityCategoryList"}, method= RequestMethod.GET)
+    public Object activityCategoryList(@RequestParam(value = "categoryId",required = false) Integer categoryId,
+                            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                            @RequestParam(value = "pageSize",defaultValue = "8")Integer pageSize) {
+        return minAppService.activityCategoryList(categoryId,pageNum,pageSize);
+    }
+
+    @RequestMapping(value={"activityCategory"}, method= RequestMethod.GET)
+    public BaseVo activityCategory(@RequestParam(value = "activityId") Integer activityId) {
+        return minAppService.activityCategory(activityId);
     }
 
 
