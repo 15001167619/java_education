@@ -1,16 +1,13 @@
 spring:
     datasource:
-    redis:
-        password: pwd666
-        host: 123.56.15.166
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://123.56.15.166:3306/muxiaoqian?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://39.105.187.158:3306/education?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-                password: pwd666
+                password: e20yEIOd6Ugl
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
