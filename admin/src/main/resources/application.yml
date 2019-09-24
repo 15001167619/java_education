@@ -37,10 +37,12 @@ server:
     # Tomcat启动初始化的线程数，默认值25
     min-spare-threads: 30
   ssl:
-    key-store: classpath:muxiaoqian.pfx
-    key-store-password: v5TACPUs
+    key-store: classpath:yanfulog.pfx
+    key-store-password: MGzG3XB1
     keyStoreType: PKCS12
- 
+    ciphers: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_RC4_128_SHA,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,SSL_RSA_WITH_RC4_128_SHA
+
+
 # 日志配置
 logging:
   level:
