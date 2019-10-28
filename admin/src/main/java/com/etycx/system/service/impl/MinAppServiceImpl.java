@@ -41,7 +41,7 @@ public class MinAppServiceImpl implements IMinAppService {
     @Autowired
     private SysPasswordService passwordService;
 
-    private final String baseUrl = "https://muxiaoqian.com";
+    private final String baseUrl = "https://vip-esteam.com";
 
     @Override
     public BaseVo index() {
