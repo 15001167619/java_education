@@ -28,6 +28,11 @@ public class AjaxResult extends HashMap<String, Object>
         return error(1, "操作失败");
     }
 
+    public static AjaxResult repeat()
+    {
+        return error(1, "账号重复");
+    }
+
     /**
      * 返回错误消息
      * 

@@ -21,6 +21,8 @@ import com.etycx.common.core.page.TableDataInfo;
 import com.etycx.common.core.domain.AjaxResult;
 import com.etycx.common.utils.poi.ExcelUtil;
 
+import static com.etycx.common.core.domain.AjaxResult.repeat;
+
 /**
  * 用户 信息操作处理
  * 
@@ -92,7 +94,15 @@ public class EducationUserController extends BaseController
 	public AjaxResult addSave(EducationUser educationUser)
 	{
 		educationUser.setPassword(passwordService.encryptPassword(educationUser.getAccount(), educationUser.getPassword(), "salt"));
-		return toAjax(educationUserService.insertEducationUser(educationUser));
+
+		try {
+			educationUserService.insertEducationUser(educationUser);
+			return success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return repeat();
+		}
+
 	}
 
 	/**
