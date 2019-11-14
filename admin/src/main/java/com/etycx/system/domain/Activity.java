@@ -107,7 +107,7 @@ public class Activity extends BaseEntity
     }
 
 	public static LinkedHashMap<String, Object> toMap(Activity activity){
-		String baseUrl = "https://muxiaoqian.com";
+		String baseUrl = "https://vip-esteam.com";
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>(5);
 		map.put("activityId",activity.getId());
 		map.put("name",activity.getName());

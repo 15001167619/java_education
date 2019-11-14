@@ -168,7 +168,7 @@ public class Video extends BaseEntity
 
 
 	public static LinkedHashMap<String, Object> toMap(Video video){
-		String baseUrl = "https://muxiaoqian.com";
+		String baseUrl = "https://vip-esteam.com";
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>(4);
 		map.put("videoId",video.getId());
 		map.put("name",video.getName());
