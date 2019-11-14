@@ -172,6 +172,7 @@ public class Video extends BaseEntity
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>(4);
 		map.put("videoId",video.getId());
 		map.put("name",video.getName());
+		map.put("isFree",video.getIsFree());
 		map.put("briefIntroduction",video.getBriefIntroduction());
 		map.put("picPath",baseUrl+video.getPicPath());
 		return map;
