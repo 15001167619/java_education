@@ -5,7 +5,6 @@
 <link th:href="@{/video/css/video-js.min.css}" rel="stylesheet"/>
 <link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
 <link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
-<div th:include="include::footer"></div>
 <style>
 	.m {
 		width: 960px;
@@ -34,305 +33,297 @@
 	.f_info input.f_file:hover{ transition:.5s;}
 </style>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-video-edit" th:object="${video}">
-            <input id="id" name="id" th:field="*{id}"  type="hidden">
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">名称：</label>
-				<div class="col-sm-8">
-					<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+	<form class="form-horizontal m" id="form-video-add" th:object="${video}">
+		<input id="id" name="id" th:field="*{id}"  type="hidden">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">视频名称</label>
+			<div class="col-sm-8">
+				<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">视频封面</label>
+			<div class="btn-group-sm">
+				<input type="file"  value="选择视频文件" id="videoPicFile" onchange="videoPicAjax()">
+			</div>
+		</div>
+
+		<div class="form-group" style="height: 150px" id="videoDiv">
+			<div class="primary_upload_info_btn" >
+				<img th:src="*{picPath}" class="videoPic" id="videoPic">
+			</div>
+		</div>
+
+		<div class="form-group" style="height: 150px" id="videoDiv">
+			<div class="primary_upload_info_btn" >
+				<img src="/img/upload1.png" class="videoPic" id="videoPic">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">视频简介</label>
+			<div class="col-sm-8">
+				<input id="briefIntroduction" name="briefIntroduction" th:field="*{briefIntroduction}" type="hidden">
+				<div id="editor" class="summernote"></div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">课程类别</label>
+			<div class="col-sm-3">
+				 <select name="category" id="category" class="form-control m-b">
+				            <option th:each="categoryInfo,userStat:${categoryList}" th:value="${categoryInfo.id}" th:text="${categoryInfo.name}" th:field="*{category}"></option>
+				 </select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">修改视频</label>
+			<div class="btn-group-sm">
+				<input type="file"  name="file" value="选择视频文件" id="videoFile" onchange="videoAjax()">
+			</div>
+		</div>
+
+		<div class="m"  id="video_page">
+			<div id="source_video">
+				<video id="my-video" class="video-js" controls preload="auto" width="960" height="400"  data-setup="{}">
+					<source th:src="*{linkPath}" type="video/mp4">
+				</video>
+			</div>
+		</div>
+
+		<input id="linkPath" name="linkPath" th:field="*{linkPath}" hidden>
+		<input id="picPath" name="picPath" th:field="*{picPath}" hidden>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否启用</label>
+			<div class="col-sm-8">
+				<div class="radio-box" th:each="dict : ${@dict.getType('video_status')}">
+					<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:field="*{status}">
+					<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 				</div>
 			</div>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label">视频封面</label>
-				<div class="btn-group-sm">
-					<input type="file"  value="选择视频文件" id="videoPicFile" onchange="videoPicAjax()">
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否推荐</label>
+			<div class="col-sm-8">
+				<div class="radio-box" th:each="dict : ${@dict.getType('is_recommend')}">
+					<input type="radio" th:id="${dict.dictCode}" name="isRecommend" th:value="${dict.dictValue}" th:field="*{isRecommend}">
+					<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 				</div>
 			</div>
-
-			<div class="form-group" style="height: 150px" id="videoDiv">
-				<div class="primary_upload_info_btn" >
-					<img th:src="*{picPath}" class="videoPic" id="videoPic">
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否收费</label>
+			<div class="col-sm-8">
+				<div class="radio-box" th:each="dict : ${@dict.getType('is_free')}">
+					<input type="radio" th:id="${dict.dictCode}" name="isFree" th:value="${dict.dictValue}" th:field="*{isFree}">
+					<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 				</div>
 			</div>
-
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label">视频简介</label>
-				<div class="col-sm-8">
-					<input id="briefIntroduction" name="briefIntroduction" th:field="*{briefIntroduction}" type="hidden">
-					<div id="editor" class="summernote"></div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label">课程类别</label>
-				<div class="col-sm-3">
-					 <select name="category" id="category" class="form-control m-b">
-					            <option th:each="categoryInfo,userStat:${categoryList}" th:value="${categoryInfo.id}" th:text="${categoryInfo.name}" th:field="*{category}"></option>
-					 </select>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label">修改视频</label>
-				<div class="btn-group-sm">
-					<input type="file"  name="file" value="选择视频文件" id="videoFile" onchange="videoAjax()">
-				</div>
-			</div>
-
-			<div class="m"  id="video_page">
-				<div id="source_video">
-					<video id="my-video" class="video-js" controls preload="auto" width="960" height="400"  data-setup="{}">
-						<source th:src="*{linkPath}" type="video/mp4">
-					</video>
-				</div>
-
-				<script th:src="@{/video/js/video.min.js}"></script>
-				<script type="text/javascript">
-					//设置中文
-					videojs.addLanguage('zh-CN', {
-						"Play": "播放",
-						"Pause": "暂停",
-						"Current Time": "当前时间",
-						"Duration": "时长",
-						"Remaining Time": "剩余时间",
-						"Stream Type": "媒体流类型",
-						"LIVE": "直播",
-						"Loaded": "加载完毕",
-						"Progress": "进度",
-						"Fullscreen": "全屏",
-						"Non-Fullscreen": "退出全屏",
-						"Mute": "静音",
-						"Unmute": "取消静音",
-						"Playback Rate": "播放速度",
-						"Subtitles": "字幕",
-						"subtitles off": "关闭字幕",
-						"Captions": "内嵌字幕",
-						"captions off": "关闭内嵌字幕",
-						"Chapters": "节目段落",
-						"Close Modal Dialog": "关闭弹窗",
-						"Descriptions": "描述",
-						"descriptions off": "关闭描述",
-						"Audio Track": "音轨",
-						"You aborted the media playback": "视频播放被终止",
-						"A network error caused the media download to fail part-way.": "网络错误导致视频下载中途失败。",
-						"The media could not be loaded, either because the server or network failed or because the format is not supported.": "视频因格式不支持或者服务器或网络的问题无法加载。",
-						"The media playback was aborted due to a corruption problem or because the media used features your browser did not support.": "由于视频文件损坏或是该视频使用了你的浏览器不支持的功能，播放终止。",
-						"No compatible source was found for this media.": "无法找到此视频兼容的源。",
-						"The media is encrypted and we do not have the keys to decrypt it.": "视频已加密，无法解密。",
-						"Play Video": "播放视频",
-						"Close": "关闭",
-						"Modal Window": "弹窗",
-						"This is a modal window": "这是一个弹窗",
-						"This modal can be closed by pressing the Escape key or activating the close button.": "可以按ESC按键或启用关闭按钮来关闭此弹窗。",
-						", opens captions settings dialog": ", 开启标题设置弹窗",
-						", opens subtitles settings dialog": ", 开启字幕设置弹窗",
-						", opens descriptions settings dialog": ", 开启描述设置弹窗",
-						", selected": ", 选择",
-						"captions settings": "字幕设定",
-						"Audio Player": "音频播放器",
-						"Video Player": "视频播放器",
-						"Replay": "重播",
-						"Progress Bar": "进度小节",
-						"Volume Level": "音量",
-						"subtitles settings": "字幕设定",
-						"descriptions settings": "描述设定",
-						"Text": "文字",
-						"White": "白",
-						"Black": "黑",
-						"Red": "红",
-						"Green": "绿",
-						"Blue": "蓝",
-						"Yellow": "黄",
-						"Magenta": "紫红",
-						"Cyan": "青",
-						"Background": "背景",
-						"Window": "视窗",
-						"Transparent": "透明",
-						"Semi-Transparent": "半透明",
-						"Opaque": "不透明",
-						"Font Size": "字体尺寸",
-						"Text Edge Style": "字体边缘样式",
-						"None": "无",
-						"Raised": "浮雕",
-						"Depressed": "压低",
-						"Uniform": "均匀",
-						"Dropshadow": "下阴影",
-						"Font Family": "字体库",
-						"Proportional Sans-Serif": "比例无细体",
-						"Monospace Sans-Serif": "单间隔无细体",
-						"Proportional Serif": "比例细体",
-						"Monospace Serif": "单间隔细体",
-						"Casual": "舒适",
-						"Script": "手写体",
-						"Small Caps": "小型大写字体",
-						"Reset": "重启",
-						"restore all settings to the default values": "恢复全部设定至预设值",
-						"Done": "完成",
-						"Caption Settings Dialog": "字幕设定视窗",
-						"Beginning of dialog window. Escape will cancel and close the window.": "开始对话视窗。离开会取消及关闭视窗",
-						"End of dialog window.": "结束对话视窗"
-					});
-				</script>
-			</div>
-
-			<input id="linkPath" name="linkPath" th:field="*{linkPath}" hidden>
-			<input id="picPath" name="picPath" th:field="*{picPath}" hidden>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label">是否启用</label>
-				<div class="col-sm-8">
-					<div class="radio-box" th:each="dict : ${@dict.getType('video_status')}">
-						<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:field="*{status}">
-						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">是否推荐</label>
-				<div class="col-sm-8">
-					<div class="radio-box" th:each="dict : ${@dict.getType('is_recommend')}">
-						<input type="radio" th:id="${dict.dictCode}" name="isRecommend" th:value="${dict.dictValue}" th:field="*{isRecommend}">
-						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">是否收费</label>
-				<div class="col-sm-8">
-					<div class="radio-box" th:each="dict : ${@dict.getType('is_free')}">
-						<input type="radio" th:id="${dict.dictCode}" name="isFree" th:value="${dict.dictValue}" th:field="*{isFree}">
-						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-					</div>
-				</div>
-			</div>
-
-
-
-		</form>
-    </div>
-    <div th:include="include::footer"></div>
-	<script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
-	<script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
-    <script type="text/javascript">
-
-
-		$(function() {
-			$('.summernote').summernote({
-				height : '220px',
-				lang : 'zh-CN',
-				callbacks: {
-					onImageUpload: function (files) {
-						sendFile(files[0], this);
-					}
+		</div>
+	</form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+<script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+<script th:src="@{/video/js/video.min.js}"></script>
+<script type="text/javascript">
+	//设置中文
+	videojs.addLanguage('zh-CN', {
+		"Play": "播放",
+		"Pause": "暂停",
+		"Current Time": "当前时间",
+		"Duration": "时长",
+		"Remaining Time": "剩余时间",
+		"Stream Type": "媒体流类型",
+		"LIVE": "直播",
+		"Loaded": "加载完毕",
+		"Progress": "进度",
+		"Fullscreen": "全屏",
+		"Non-Fullscreen": "退出全屏",
+		"Mute": "静音",
+		"Unmute": "取消静音",
+		"Playback Rate": "播放速度",
+		"Subtitles": "字幕",
+		"subtitles off": "关闭字幕",
+		"Captions": "内嵌字幕",
+		"captions off": "关闭内嵌字幕",
+		"Chapters": "节目段落",
+		"Close Modal Dialog": "关闭弹窗",
+		"Descriptions": "描述",
+		"descriptions off": "关闭描述",
+		"Audio Track": "音轨",
+		"You aborted the media playback": "视频播放被终止",
+		"A network error caused the media download to fail part-way.": "网络错误导致视频下载中途失败。",
+		"The media could not be loaded, either because the server or network failed or because the format is not supported.": "视频因格式不支持或者服务器或网络的问题无法加载。",
+		"The media playback was aborted due to a corruption problem or because the media used features your browser did not support.": "由于视频文件损坏或是该视频使用了你的浏览器不支持的功能，播放终止。",
+		"No compatible source was found for this media.": "无法找到此视频兼容的源。",
+		"The media is encrypted and we do not have the keys to decrypt it.": "视频已加密，无法解密。",
+		"Play Video": "播放视频",
+		"Close": "关闭",
+		"Modal Window": "弹窗",
+		"This is a modal window": "这是一个弹窗",
+		"This modal can be closed by pressing the Escape key or activating the close button.": "可以按ESC按键或启用关闭按钮来关闭此弹窗。",
+		", opens captions settings dialog": ", 开启标题设置弹窗",
+		", opens subtitles settings dialog": ", 开启字幕设置弹窗",
+		", opens descriptions settings dialog": ", 开启描述设置弹窗",
+		", selected": ", 选择",
+		"captions settings": "字幕设定",
+		"Audio Player": "音频播放器",
+		"Video Player": "视频播放器",
+		"Replay": "重播",
+		"Progress Bar": "进度小节",
+		"Volume Level": "音量",
+		"subtitles settings": "字幕设定",
+		"descriptions settings": "描述设定",
+		"Text": "文字",
+		"White": "白",
+		"Black": "黑",
+		"Red": "红",
+		"Green": "绿",
+		"Blue": "蓝",
+		"Yellow": "黄",
+		"Magenta": "紫红",
+		"Cyan": "青",
+		"Background": "背景",
+		"Window": "视窗",
+		"Transparent": "透明",
+		"Semi-Transparent": "半透明",
+		"Opaque": "不透明",
+		"Font Size": "字体尺寸",
+		"Text Edge Style": "字体边缘样式",
+		"None": "无",
+		"Raised": "浮雕",
+		"Depressed": "压低",
+		"Uniform": "均匀",
+		"Dropshadow": "下阴影",
+		"Font Family": "字体库",
+		"Proportional Sans-Serif": "比例无细体",
+		"Monospace Sans-Serif": "单间隔无细体",
+		"Proportional Serif": "比例细体",
+		"Monospace Serif": "单间隔细体",
+		"Casual": "舒适",
+		"Script": "手写体",
+		"Small Caps": "小型大写字体",
+		"Reset": "重启",
+		"restore all settings to the default values": "恢复全部设定至预设值",
+		"Done": "完成",
+		"Caption Settings Dialog": "字幕设定视窗",
+		"Beginning of dialog window. Escape will cancel and close the window.": "开始对话视窗。离开会取消及关闭视窗",
+		"End of dialog window.": "结束对话视窗"
+	});
+</script>
+<script type="text/javascript">
+	$(function() {
+		$('.summernote').summernote({
+			height : '220px',
+			lang : 'zh-CN',
+			callbacks: {
+				onImageUpload: function (files) {
+					sendFile(files[0], this);
 				}
-			});
-			var content = $("#briefIntroduction").val();
-			$('#editor').summernote('code', content);
+			}
 		});
+		var content = $("#briefIntroduction").val();
+		$('#editor').summernote('code', content);
+	});
 
-		// 上传文件
-		function sendFile(file, obj) {
-			var data = new FormData();
-			data.append("file", file);
-			$.ajax({
-				type: "POST",
-				url: ctx + "common/upload",
-				data: data,
-				cache: false,
-				contentType: false,
-				processData: false,
-				dataType: 'json',
-				success: function(result) {
-					if (result.code == web_status.SUCCESS) {
-						$(obj).summernote('editor.insertImage', result.url, result.fileName);
-					} else {
-						$.modal.alertError(result.msg);
-					}
-				},
-				error: function(error) {
-					$.modal.alertWarning("图片上传失败。");
+	// 上传文件
+	function sendFile(file, obj) {
+		var data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			type: "POST",
+			url: ctx + "common/upload",
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(result) {
+				if (result.code == web_status.SUCCESS) {
+					$(obj).summernote('editor.insertImage', result.url, result.fileName);
+				} else {
+					$.modal.alertError(result.msg);
 				}
-			});
-		}
-
-
-
-
-
-
-
-
-		var prefix = ctx + "system/video";
-		$("#form-video-edit").validate({
-			rules:{
-				xxxx:{
-					required:true,
-				},
 			},
-			focusCleanup: true
+			error: function(error) {
+				$.modal.alertWarning("图片上传失败。");
+			}
 		});
-		
-		function submitHandler() {
-			var sHTML = $('.summernote').summernote('code');
-			$("#briefIntroduction").val(sHTML);
-	        if ($.validate.form()) {
-	            $.operate.save(prefix + "/edit", $('#form-video-edit').serialize());
-	        }
-	    }
+	}
+	var prefix = ctx + "system/video";
+	$("#form-video-edit").validate({
+		rules:{
+			xxxx:{
+				required:true,
+			},
+		},
+		focusCleanup: true
+	});
 
-		function videoAjax() {
-			var uploadFile = $("#videoFile")[0].files[0];
-			console.log(uploadFile);
-			var formData = new FormData();
-			formData.append("uploadFile", uploadFile);
-			$.ajax({
-				url: '/common/uploadVideoFile',
-				type: 'POST',
-				data: formData,
-				async: false,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function (result) {
-					$("#source_video").html('');
-					var videoHtml = '<video id="my-video" class="video-js" controls preload="auto" width="960" height="400"  data-setup="{}">'
-							+'<source src="'+result.url+'" type="video/mp4"></video>'
-					$("#source_video").append(videoHtml)
-					$("#video_page").show();
-					$("#linkPath").val('/upload/'+result.fileName);
-					var myPlayer = videojs('my-video');
-					videojs("my-video").ready(function(){
-						var myPlayer = this;
-						myPlayer.play();
-					});
-				}
-			});
+	function submitHandler() {
+		var sHTML = $('.summernote').summernote('code');
+		$("#briefIntroduction").val(sHTML);
+		if ($.validate.form()) {
+			$.operate.save(prefix + "/edit", $('#form-video-edit').serialize());
 		}
+	}
 
-		function videoPicAjax() {
-			var uploadFile = $("#videoPicFile")[0].files[0];
-			var formData = new FormData();
-			formData.append("uploadFile", uploadFile);
-			$.ajax({
-				url: '/common/uploadVideoFile',
-				type: 'POST',
-				data: formData,
-				async: false,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function (result) {
+	function videoAjax() {
+		var uploadFile = $("#videoFile")[0].files[0];
+		console.log(uploadFile);
+		var formData = new FormData();
+		formData.append("uploadFile", uploadFile);
+		$.ajax({
+			url: '/common/uploadVideoFile',
+			type: 'POST',
+			data: formData,
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (result) {
+				$("#source_video").html('');
+				var videoHtml = '<video id="my-video" class="video-js" controls preload="auto" width="960" height="400"  data-setup="{}">'
+						+'<source src="'+result.url+'" type="video/mp4"></video>'
+				$("#source_video").append(videoHtml)
+				$("#video_page").show();
+				$("#linkPath").val('/upload/'+result.fileName);
+				var myPlayer = videojs('my-video');
+				videojs("my-video").ready(function(){
+					var myPlayer = this;
+					myPlayer.play();
+				});
+			}
+		});
+	}
+
+	function videoPicAjax() {
+		var uploadFile = $("#videoPicFile")[0].files[0];
+		var formData = new FormData();
+		formData.append("uploadFile", uploadFile);
+		$.ajax({
+			url: '/common/uploadVideoFile',
+			type: 'POST',
+			data: formData,
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (result) {
 				debugger
-					console.log(result.url)
-					$("#videoPic").attr("src",result.url);
-					$("#videoDiv").show();
-					$("#picPath").val('/upload/'+result.fileName);
-				}
-			});
-		}
-	</script>
+				console.log(result.url)
+				$("#videoPic").attr("src",result.url);
+				$("#videoDiv").show();
+				$("#picPath").val('/upload/'+result.fileName);
+			}
+		});
+	}
+
+</script>
 </body>
 </html>
