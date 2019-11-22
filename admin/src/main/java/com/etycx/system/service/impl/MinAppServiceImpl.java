@@ -2,6 +2,7 @@ package com.etycx.system.service.impl;
 
 import com.etycx.common.base.BaseVo;
 import com.etycx.common.utils.DateUtils;
+import com.etycx.common.utils.StringUtils;
 import com.etycx.framework.shiro.service.SysPasswordService;
 import com.etycx.system.domain.*;
 import com.etycx.system.mapper.*;
@@ -125,6 +126,8 @@ public class MinAppServiceImpl implements IMinAppService {
             map.put("briefIntroduction",video.getBriefIntroduction());
             map.put("picPath",baseUrl+video.getPicPath());
             map.put("linkPath",baseUrl+video.getLinkPath());
+            //好的 0 没有视频 1有视频
+            map.put("fuck", StringUtils.isEmpty(video.getLinkPath()) ? 0 : 1);
             return baseVo.ok(map,"获取课程视频详情成功");
         }
         return baseVo.ok(null,"获取课程视频详情成功");
