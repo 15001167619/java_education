@@ -41,8 +41,9 @@ public class ApiIndexController extends BaseApiController {
     }
 
     @RequestMapping(value={"video"}, method= RequestMethod.GET)
-    public Object video(@RequestParam(value = "videoId") Integer videoId) {
-        return minAppService.video(videoId);
+    public Object video(@RequestParam(value = "videoId") Integer videoId,
+                        @RequestParam(value = "userId",required = false) Integer userId) {
+        return minAppService.video(userId,videoId);
     }
 
     /**

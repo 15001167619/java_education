@@ -116,9 +116,24 @@ public class MinAppServiceImpl implements IMinAppService {
     }
 
     @Override
-    public BaseVo video(Integer videoId) {
+    public BaseVo video(Integer userId,Integer videoId) {
         BaseVo baseVo = new BaseVo();
         Video video = videoMapper.selectVideoById(videoId);
+        if(video.getIsFree() == 1){
+            if(userId ==null){
+                return baseVo.error("付费视频请登录");
+            }else {
+                Integer categoryId = video.getCategory();
+                Map<String,Object> selectMap = new HashMap<>(2);
+                selectMap.put("categoryId",categoryId);
+                selectMap.put("userId",userId);
+
+                Integer count = videoMapper.countInfo(selectMap);
+                if(count==0){
+                    return baseVo.error("您没有权限观看");
+                }
+            }
+        }
         Map<String,Object> map = new HashMap<>(5);
         if(video!=null){
             map.put("videoId",video.getId());

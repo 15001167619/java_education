@@ -109,5 +109,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id,`name`,brief_introduction briefIntroduction,pic_path picPath from video
         where status = 0
     </select>
+
+    <select id="countInfo" parameterType="map" resultType="int">
+        select count(1) from user_relation_category where user_id =#{userId} and category_id =#{categoryId}
+    </select>
     
 </mapper>

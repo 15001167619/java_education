@@ -4,6 +4,7 @@ import com.etycx.system.domain.Video;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 视频  数据层
@@ -64,4 +65,7 @@ public interface VideoMapper
 	List<Video> findVideoList(Video video);
 
     List<HashMap> getCategoryList();
+
+
+	Integer countInfo(Map<String, Object> selectMap);
 }

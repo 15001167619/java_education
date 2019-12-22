@@ -10,7 +10,7 @@ public interface IMinAppService {
 
     BaseVo videoList(Integer categoryId, Integer pageNum, Integer pageSize);
 
-    BaseVo video(Integer videoId);
+    BaseVo video(Integer userId,Integer videoId);
 
     BaseVo login(String account, String password);
 
