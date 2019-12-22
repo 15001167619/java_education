@@ -1,7 +1,10 @@
 package com.etycx.system.mapper;
 
 import com.etycx.system.domain.EducationUser;
-import java.util.List;	
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 数据层
@@ -58,5 +61,7 @@ public interface EducationUserMapper
      * @return 结果
      */
 	public int deleteEducationUserByIds(String[] ids);
-	
+
+    List<Map<String, Object>> getUserCategoryList(@Param(value = "userId") Integer userId);
+
 }

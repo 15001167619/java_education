@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <input type="text" name="userId" th:value="${userId}" id="userId"/>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="add()">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var userId;
+        $(function() {
+            userId = $("#userId").val();
+        })
+
+        function add() {
+            userId = $("#userId").val();
+            $.modal.open("添加课程", 'curriculum/add?userId='+userId);
+        }
+
+
+        var editFlag = [[${@permission.hasPermi('system:category:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:category:remove')}]];
+        var prefix = ctx + "system/educationUser";
+
+        $(function() {
+            var options = {
+
+
+
+                url: prefix + "/getUserCategoryList?userId="+userId,
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "用户分类关联",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'userId', 
+                    title : '${comment}',
+                    visible: false
+                },
+                {
+                    field : 'categoryId', 
+                    title : '${comment}',
+                    visible: false
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.userId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

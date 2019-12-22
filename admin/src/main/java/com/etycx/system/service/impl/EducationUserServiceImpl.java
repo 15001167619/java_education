@@ -1,6 +1,8 @@
 package com.etycx.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etycx.system.mapper.EducationUserMapper;
@@ -79,5 +81,9 @@ public class EducationUserServiceImpl implements IEducationUserService
 	{
 		return educationUserMapper.deleteEducationUserByIds(Convert.toStrArray(ids));
 	}
-	
+
+	@Override
+	public List<Map<String, Object>> getUserCategoryList(Integer userId) {
+		return educationUserMapper.getUserCategoryList(userId);
+	}
 }

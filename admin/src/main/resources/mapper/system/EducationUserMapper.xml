@@ -69,5 +69,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getUserCategoryList" resultType="map" parameterType="int">
+        select * from (
+select rc.user_id userId,rc.category_id categoryId,c.name from user_relation_category rc,category c where rc.category_id = c.id)a
+where userId = #{userId}
+    </select>
     
 </mapper>

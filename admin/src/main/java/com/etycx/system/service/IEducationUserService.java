@@ -2,6 +2,7 @@ package com.etycx.system.service;
 
 import com.etycx.system.domain.EducationUser;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 服务层
@@ -50,5 +51,6 @@ public interface IEducationUserService
      * @return 结果
      */
 	public int deleteEducationUserByIds(String ids);
-	
+
+    List<Map<String, Object>> getUserCategoryList(Integer userId);
 }

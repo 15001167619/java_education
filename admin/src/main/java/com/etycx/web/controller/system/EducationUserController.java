@@ -1,8 +1,11 @@
 package com.etycx.web.controller.system;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.etycx.framework.shiro.service.SysPasswordService;
+import com.etycx.system.service.ICategoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,12 +43,27 @@ public class EducationUserController extends BaseController
 
 	@Autowired
 	private SysPasswordService passwordService;
+
+	@Autowired
+	private ICategoryService categoryService;
+
+	private List<HashMap> getCategoryList() {
+		return categoryService.getCategoryList();
+	}
 	
 	@RequiresPermissions("system:educationUser:view")
 	@GetMapping()
 	public String educationUser()
 	{
 	    return prefix + "/educationUser";
+	}
+
+
+	@GetMapping("toUserCategoryList")
+	public String toUserCategoryList(Integer userId,ModelMap mmap)
+	{
+		mmap.put("userId", userId);
+	    return prefix + "/user_relation_category";
 	}
 	
 	/**
@@ -58,6 +76,15 @@ public class EducationUserController extends BaseController
 	{
 		startPage();
         List<EducationUser> list = educationUserService.selectEducationUserList(educationUser);
+		return getDataTable(list);
+	}
+
+	@PostMapping("/getUserCategoryList")
+	@ResponseBody
+	public TableDataInfo getUserCategoryList(Integer userId)
+	{
+		startPage();
+		List<Map<String,Object>> list = educationUserService.getUserCategoryList(userId);
 		return getDataTable(list);
 	}
 	
