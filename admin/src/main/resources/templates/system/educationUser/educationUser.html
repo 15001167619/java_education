@@ -59,7 +59,7 @@
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		            	var actions = [];
-						actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="addCategoryListUrl(\'' + row.id + '\')"><i class="fa fa-align-right"></i>课程内容设置</a> ');
+						actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="addCategoryListUrl(\'' + row.id + '\')"><i class="fa fa-align-right"></i>关联视频分类</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
 						return actions.join('');
 		            }
@@ -69,7 +69,7 @@
         });
 
 		function addCategoryListUrl(id) {
-			$.modal.openTab("添加视频分类", 'system/educationUser/toUserCategoryList?userId='+id);
+			$.modal.openTab("关联视频分类", 'system/educationUser/toUserCategoryList?userId='+id);
 		}
     </script>
 </body>
