@@ -47,6 +47,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="createTime != null  ">#{createTime},</if>
          </trim>
     </insert>
+
+    <insert id="relationCategoryAdd" parameterType="map">
+        insert into user_relation_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">user_id,</if>
+			<if test="categoryId != null">category_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">#{userId},</if>
+			<if test="categoryId != null">#{categoryId},</if>
+         </trim>
+    </insert>
 	 
     <update id="updateEducationUser" parameterType="EducationUser">
         update education_user
@@ -62,6 +74,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteEducationUserById" parameterType="Integer">
         delete from education_user where id = #{id}
     </delete>
+
+	<delete id="relationCategoryRemove" parameterType="Integer">
+        delete from user_relation_category where id = #{id}
+    </delete>
 	
     <delete id="deleteEducationUserByIds" parameterType="String">
         delete from education_user where id in 
@@ -72,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getUserCategoryList" resultType="map" parameterType="int">
         select * from (
-select rc.user_id userId,rc.category_id categoryId,c.name from user_relation_category rc,category c where rc.category_id = c.id)a
+select rc.id,rc.user_id userId,rc.category_id categoryId,c.name from user_relation_category rc,category c where rc.category_id = c.id)a
 where userId = #{userId}
     </select>
     

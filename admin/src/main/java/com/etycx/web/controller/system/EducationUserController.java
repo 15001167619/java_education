@@ -24,6 +24,7 @@ import com.etycx.common.core.page.TableDataInfo;
 import com.etycx.common.core.domain.AjaxResult;
 import com.etycx.common.utils.poi.ExcelUtil;
 
+import static com.etycx.common.core.domain.AjaxResult.categoryRepeat;
 import static com.etycx.common.core.domain.AjaxResult.repeat;
 
 /**
@@ -110,6 +111,17 @@ public class EducationUserController extends BaseController
 	{
 	    return prefix + "/add";
 	}
+
+	/**
+	 * 新增用户
+	 */
+	@GetMapping("/userRelationCategory/add")
+	public String userRelationCategoryAdd(Integer userId,ModelMap mmap)
+	{
+		mmap.put("userId", userId);
+		mmap.put("categoryList", getCategoryList());
+	    return prefix + "/user_relation_category_add";
+	}
 	
 	/**
 	 * 新增保存用户
@@ -128,6 +140,25 @@ public class EducationUserController extends BaseController
 		} catch (Exception e) {
 			e.printStackTrace();
 			return repeat();
+		}
+
+	}
+
+	@PostMapping("/relationCategoryAdd")
+	@ResponseBody
+	public AjaxResult relationCategoryAdd(Integer userId,Integer categoryId)
+	{
+
+		Map<String,Object> map = new HashMap<>(2);
+		map.put("userId",userId);
+		map.put("categoryId",categoryId);
+
+		try {
+			educationUserService.relationCategoryAdd(map);
+			return success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return categoryRepeat();
 		}
 
 	}
@@ -165,6 +196,13 @@ public class EducationUserController extends BaseController
 	public AjaxResult remove(String ids)
 	{		
 		return toAjax(educationUserService.deleteEducationUserByIds(ids));
+	}
+
+	@PostMapping( "/relationCategoryRemove")
+	@ResponseBody
+	public AjaxResult relationCategoryRemove(Integer id)
+	{
+		return toAjax(educationUserService.relationCategoryRemove(id));
 	}
 	
 }

@@ -64,4 +64,7 @@ public interface EducationUserMapper
 
     List<Map<String, Object>> getUserCategoryList(@Param(value = "userId") Integer userId);
 
+    int relationCategoryAdd(Map<String, Object> map);
+
+	int relationCategoryRemove(Integer id);
 }

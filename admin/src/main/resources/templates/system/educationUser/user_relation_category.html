@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
-                    <input type="text" name="userId" th:value="${userId}" id="userId"/>
+                    <input type="hidden" name="userId" th:value="${userId}" id="userId"/>
                 </form>
             </div>
 
@@ -29,7 +29,7 @@
 
         function add() {
             userId = $("#userId").val();
-            $.modal.open("添加课程", 'curriculum/add?userId='+userId);
+            $.modal.open("添加课程", 'userRelationCategory/add?userId='+userId);
         }
 
 
@@ -39,35 +39,25 @@
 
         $(function() {
             var options = {
-
-
-
                 url: prefix + "/getUserCategoryList?userId="+userId,
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
+                removeUrl: prefix + "/relationCategoryRemove",
                 exportUrl: prefix + "/export",
                 modalName: "用户分类关联",
                 columns: [{
                     checkbox: true
                 },
                 {
-                    field : 'userId', 
-                    title : '${comment}',
-                    visible: false
-                },
-                {
-                    field : 'categoryId', 
-                    title : '${comment}',
-                    visible: false
+                    field : 'name',
+                    title : '分类名称'
                 },
                 {
                     title: '操作',
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.userId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]

@@ -33,6 +33,11 @@ public class AjaxResult extends HashMap<String, Object>
         return error(1, "账号重复");
     }
 
+    public static AjaxResult categoryRepeat()
+    {
+        return error(1, "分类重复");
+    }
+
     /**
      * 返回错误消息
      * 

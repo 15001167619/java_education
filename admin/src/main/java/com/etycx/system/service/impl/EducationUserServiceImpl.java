@@ -86,4 +86,14 @@ public class EducationUserServiceImpl implements IEducationUserService
 	public List<Map<String, Object>> getUserCategoryList(Integer userId) {
 		return educationUserMapper.getUserCategoryList(userId);
 	}
+
+	@Override
+	public int relationCategoryAdd(Map<String, Object> map) {
+		return educationUserMapper.relationCategoryAdd(map);
+	}
+
+	@Override
+	public int relationCategoryRemove(Integer id) {
+		return educationUserMapper.relationCategoryRemove(id);
+	}
 }
