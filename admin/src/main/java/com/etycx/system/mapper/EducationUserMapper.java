@@ -62,7 +62,7 @@ public interface EducationUserMapper
      */
 	public int deleteEducationUserByIds(String[] ids);
 
-    List<Map<String, Object>> getUserCategoryList(@Param(value = "userId") Integer userId);
+    List<EducationUser> getUserCategoryList(@Param(value = "userId") Integer userId);
 
     int relationCategoryAdd(Map<String, Object> map);
 

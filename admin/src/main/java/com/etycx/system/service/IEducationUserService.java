@@ -52,7 +52,7 @@ public interface IEducationUserService
      */
 	public int deleteEducationUserByIds(String ids);
 
-    List<Map<String, Object>> getUserCategoryList(Integer userId);
+    List<EducationUser> getUserCategoryList(Integer userId);
 
     int relationCategoryAdd(Map<String, Object> map);
 

@@ -83,7 +83,7 @@ public class EducationUserServiceImpl implements IEducationUserService
 	}
 
 	@Override
-	public List<Map<String, Object>> getUserCategoryList(Integer userId) {
+	public List<EducationUser> getUserCategoryList(Integer userId) {
 		return educationUserMapper.getUserCategoryList(userId);
 	}
 

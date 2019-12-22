@@ -19,6 +19,26 @@ public class EducationUser extends BaseEntity
 	private Integer id;
 	/** 账号 */
 	private String account;
+
+	/**
+	 * Getter for property 'name'.
+	 *
+	 * @return Value for property 'name'.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Setter for property 'name'.
+	 *
+	 * @param name Value to set for property 'name'.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	private String name;
 	/** 密码 */
 	private String password;
 	/** 备注信息 */

@@ -85,7 +85,7 @@ public class EducationUserController extends BaseController
 	public TableDataInfo getUserCategoryList(Integer userId)
 	{
 		startPage();
-		List<Map<String,Object>> list = educationUserService.getUserCategoryList(userId);
+		List<EducationUser> list = educationUserService.getUserCategoryList(userId);
 		return getDataTable(list);
 	}
 	
@@ -200,9 +200,9 @@ public class EducationUserController extends BaseController
 
 	@PostMapping( "/relationCategoryRemove")
 	@ResponseBody
-	public AjaxResult relationCategoryRemove(Integer id)
+	public AjaxResult relationCategoryRemove(String ids)
 	{
-		return toAjax(educationUserService.relationCategoryRemove(id));
+		return toAjax(educationUserService.relationCategoryRemove(Integer.valueOf(ids)));
 	}
 	
 }
